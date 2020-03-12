@@ -19,6 +19,7 @@
 #include <iostream>
 #include <memory>
 #include <string>
+#include <chrono>
 
 int *pArgc = NULL;
 char **pArgv = NULL;
@@ -45,6 +46,24 @@ inline void getCudaAttribute(T *attribute, CUdevice_attribute device_attribute,
 }
 
 #endif /* CUDART_VERSION < 5000 */
+
+struct timer {
+  using timestamp = std::chrono::time_point<std::chrono::system_clock>;
+  using duration = std::chrono::duration<double>;
+
+  static void start() { m_timestamp1 = std::chrono::system_clock::now(); }
+
+  static void stop() {
+    m_timestamp2 = std::chrono::system_clock::now();
+    m_duration = m_timestamp2 - m_timestamp1;
+  }
+
+  static auto read() { return m_duration.count(); }
+
+  inline static timestamp m_timestamp1;
+  inline static timestamp m_timestamp2;
+  inline static duration m_duration;
+};
 
 ////////////////////////////////////////////////////////////////////////////////
 // Program main

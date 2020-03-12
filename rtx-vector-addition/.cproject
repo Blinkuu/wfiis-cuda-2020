@@ -33,6 +33,7 @@
 									<listOptionValue builtIn="false" value="&quot;${cuda_samples_dir:/rtx-vector-addition}/common/inc&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/rtx-vector-addition}&quot;"/>
 								</option>
+								<option id="nvcc.compiler.cpp11option.1014574782" name="Enable C++11 support (-std=c++11)" superClass="nvcc.compiler.cpp11option" value="true" valueType="boolean"/>
 								<inputType id="nvcc.compiler.input.cu.690304911" superClass="nvcc.compiler.input.cu"/>
 								<inputType id="nvcc.compiler.input.cpp.1810427442" superClass="nvcc.compiler.input.cpp"/>
 								<inputType id="nvcc.compiler.input.c.992489426" superClass="nvcc.compiler.input.c"/>
@@ -61,6 +62,7 @@
 					<sass major="7" minor="5"/>
 					<ptx major="3" minor="5"/>
 				</executable>
+				<editor-arch major="3" minor="5"/>
 			</storageModule>
 			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
 		</cconfiguration>
@@ -90,18 +92,19 @@
 								<option id="nvcc.compiler.option.level.51687489" name="Generate host debug information (-g)" superClass="nvcc.compiler.option.level"/>
 								<option defaultValue="nvcc.compiler.optimization.level.most" id="nvcc.compiler.optimization.level.1496555318" name="Optimization Level" superClass="nvcc.compiler.optimization.level" valueType="enumerated"/>
 								<option id="nvcc.compiler.pic.2105627324" name="Position Independent Code (-fPIC)" superClass="nvcc.compiler.pic"/>
-								<option id="nvcc.compiler.machine.133799104" superClass="nvcc.compiler.machine" value="nvcc.compiler.machine64" valueType="enumerated"/>
-								<option id="nvcc.compiler.include.paths.1496098197" superClass="nvcc.compiler.include.paths" valueType="includePath">
+								<option id="nvcc.compiler.machine.133799104" name="Architecture (--machine)" superClass="nvcc.compiler.machine" value="nvcc.compiler.machine64" valueType="enumerated"/>
+								<option id="nvcc.compiler.include.paths.1496098197" name="Include paths (-I)" superClass="nvcc.compiler.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${cuda_samples_dir:/rtx-vector-addition}/0_Simple&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cuda_samples_dir:/rtx-vector-addition}/common/inc&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/rtx-vector-addition}&quot;"/>
 								</option>
+								<option id="nvcc.compiler.cpp11option.1148558454" name="Enable C++11 support (-std=c++11)" superClass="nvcc.compiler.cpp11option" value="true" valueType="boolean"/>
 								<inputType id="nvcc.compiler.input.cu.1870423412" superClass="nvcc.compiler.input.cu"/>
 								<inputType id="nvcc.compiler.input.cpp.31983797" superClass="nvcc.compiler.input.cpp"/>
 								<inputType id="nvcc.compiler.input.c.1824487480" superClass="nvcc.compiler.input.c"/>
 							</tool>
 							<tool id="nvcc.linker.base.414779425" name="NVCC Linker" superClass="nvcc.linker.base">
-								<option id="nvcc.linker.option.machine.334393400" superClass="nvcc.linker.option.machine" value="nvcc.linker.machine64" valueType="enumerated"/>
+								<option id="nvcc.linker.option.machine.334393400" name="Architecture (--machine)" superClass="nvcc.linker.option.machine" value="nvcc.linker.machine64" valueType="enumerated"/>
 								<inputType id="nvcc.linker.input.1081572630" superClass="nvcc.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
 									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
@@ -145,4 +148,5 @@
 	</storageModule>
 	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
 	<storageModule cpu="Native" moduleId="nsight.localTarget"/>
+	<storageModule moduleId="refreshScope"/>
 </cproject>
