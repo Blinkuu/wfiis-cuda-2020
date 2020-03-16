@@ -112,8 +112,9 @@ int
 main(void)
 {
 	std::ofstream ofs;
-	ofs.open("device_all.txt");
-	for(int numElements = 1; numElements < 502267904; numElements*=10) {
+	ofs.open("host_biggest_number.txt");
+//	for(int numElements = 1; numElements < 502267904; numElements*=10) {
+	 	int numElements = 502267904;
 		size_t size = numElements * sizeof(float);
 		printf("[Vector addition of %d elements]\n", numElements);
 
@@ -135,13 +136,8 @@ main(void)
 
 		for(int i = 0; i < 10; i++) {
 
-
-
-//			for(int j = 0; j < numElements; j++) {
-//				h_C[j] = h_A[j] + h_B[j];
-//			}
-
 			timer::start();
+
 			float *d_A = NULL;
 			allocateCuda(&d_A, size);
 
@@ -155,7 +151,7 @@ main(void)
 			memcopyCudaHostToDevice(h_B, d_B, size);
 
 
-			int threadsPerBlock = 256;
+			int threadsPerBlock = 32;
 			int blocksPerGrid =(numElements + threadsPerBlock - 1) / threadsPerBlock;
 			printf("CUDA kernel launch with %d blocks of %d threads\n", blocksPerGrid, threadsPerBlock);
 			vectorAdd<<<blocksPerGrid, threadsPerBlock>>>(d_A, d_B, d_C, numElements);
@@ -173,6 +169,7 @@ main(void)
 			freeCuda(d_A);
 			freeCuda(d_B);
 			freeCuda(d_C);
+
 			timer::stop();
 
 			std::cout << "[Timer]" << timer::read() << std::endl;
@@ -182,7 +179,7 @@ main(void)
 		free(h_A);
 		free(h_B);
 		free(h_C);
-	}
+//	}
 	ofs.close();
 
 

@@ -90,18 +90,19 @@
 								<option id="nvcc.compiler.option.level.1524981318" name="Generate host debug information (-g)" superClass="nvcc.compiler.option.level"/>
 								<option defaultValue="nvcc.compiler.optimization.level.most" id="nvcc.compiler.optimization.level.824899137" name="Optimization Level" superClass="nvcc.compiler.optimization.level" valueType="enumerated"/>
 								<option id="nvcc.compiler.pic.181019913" name="Position Independent Code (-fPIC)" superClass="nvcc.compiler.pic"/>
-								<option id="nvcc.compiler.machine.1209885782" superClass="nvcc.compiler.machine" value="nvcc.compiler.machine64" valueType="enumerated"/>
-								<option id="nvcc.compiler.include.paths.1161613918" superClass="nvcc.compiler.include.paths" valueType="includePath">
+								<option id="nvcc.compiler.machine.1209885782" name="Architecture (--machine)" superClass="nvcc.compiler.machine" value="nvcc.compiler.machine64" valueType="enumerated"/>
+								<option id="nvcc.compiler.include.paths.1161613918" name="Include paths (-I)" superClass="nvcc.compiler.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${cuda_samples_dir:/gpu-props}/1_Utilities&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cuda_samples_dir:/gpu-props}/common/inc&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/gpu-props}&quot;"/>
 								</option>
+								<option id="nvcc.compiler.cpp11option.1823403789" superClass="nvcc.compiler.cpp11option" value="true" valueType="boolean"/>
 								<inputType id="nvcc.compiler.input.cu.1068860464" superClass="nvcc.compiler.input.cu"/>
 								<inputType id="nvcc.compiler.input.cpp.404898097" superClass="nvcc.compiler.input.cpp"/>
 								<inputType id="nvcc.compiler.input.c.1001729595" superClass="nvcc.compiler.input.c"/>
 							</tool>
 							<tool id="nvcc.linker.base.1185260495" name="NVCC Linker" superClass="nvcc.linker.base">
-								<option id="nvcc.linker.option.machine.1042795710" superClass="nvcc.linker.option.machine" value="nvcc.linker.machine64" valueType="enumerated"/>
+								<option id="nvcc.linker.option.machine.1042795710" name="Architecture (--machine)" superClass="nvcc.linker.option.machine" value="nvcc.linker.machine64" valueType="enumerated"/>
 								<inputType id="nvcc.linker.input.1978252146" superClass="nvcc.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
 									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
@@ -125,6 +126,7 @@
 					<sass major="7" minor="5"/>
 					<ptx major="3" minor="5"/>
 				</executable>
+				<editor-arch major="3" minor="5"/>
 			</storageModule>
 		</cconfiguration>
 	</storageModule>
@@ -145,4 +147,13 @@
 	</storageModule>
 	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
 	<storageModule cpu="Native" moduleId="nsight.localTarget"/>
+	<storageModule moduleId="refreshScope" versionNumber="2">
+		<configuration configurationName="Debug">
+			<resource resourceType="PROJECT" workspacePath="/gpu-props"/>
+		</configuration>
+		<configuration configurationName="Release">
+			<resource resourceType="PROJECT" workspacePath="/gpu-props"/>
+		</configuration>
+	</storageModule>
+	<storageModule moduleId="org.eclipse.cdt.internal.ui.text.commentOwnerProjectMappings"/>
 </cproject>
