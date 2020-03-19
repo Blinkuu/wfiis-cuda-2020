@@ -38,6 +38,7 @@ namespace cuda {
         const std::size_t size = N * M;
 
         matrix() {
+           std::cout << "matrix()" << std::endl;
            data = reinterpret_cast<T*>(malloc(size * sizeof(T)));
         }
 
@@ -51,6 +52,10 @@ namespace cuda {
         matrix(matrix&& rhs) {
         	data = rhs.data;
         	rhs.data = nullptr;
+        }
+
+        virtual ~matrix() {
+            free(data);
         }
 
         matrix& operator=(const matrix& rhs) {
@@ -74,7 +79,7 @@ namespace cuda {
         	return *this;
         }
 
-        bool operator==(const matrix& rhs) {
+        bool operator==(const matrix& rhs) const {
         	for(std::size_t i = 0; i < size; i++) {
         		if(data[i] != rhs.data[i])
         			return false;
@@ -89,7 +94,7 @@ namespace cuda {
             }
         }
 
-        void print() {
+        void print() const {
             for(std::size_t i = 0; i < N; i++) {
             	for(std::size_t j = 0; j < M; j++) {
             		std::cout << data[j + i * N] << " ";
@@ -99,21 +104,17 @@ namespace cuda {
             std::cout << std::endl;
         }
 
-        matrix add_parallel(const matrix& rhs);
+        matrix add_parallel(const matrix& rhs) const;
 
-        matrix add_sequential(const matrix& rhs);
+        matrix add_sequential(const matrix& rhs) const;
 
-        matrix hadamard_parallel(const matrix& rhs);
+        matrix hadamard_parallel(const matrix& rhs) const;
 
-        matrix hadamard_sequential(const matrix& rhs);
-
-        ~matrix() {
-            free(data);
-        }
+        matrix hadamard_sequential(const matrix& rhs) const;
     };
 
     template<typename T, std::size_t N, std::size_t M>
-    matrix<T, N, M> matrix<T, N, M>::add_parallel(const matrix<T, N, M>& rhs) {
+    matrix<T, N, M> matrix<T, N, M>::add_parallel(const matrix<T, N, M>& rhs) const {
     	matrix<T, N, M> result;
 
     	T *d_A, *d_B, *d_C;
@@ -144,7 +145,7 @@ namespace cuda {
     }
 
     template<typename T, std::size_t N, std::size_t M>
-    matrix<T, N, M> matrix<T, N, M>::add_sequential(const matrix<T, N, M>& rhs) {
+    matrix<T, N, M> matrix<T, N, M>::add_sequential(const matrix<T, N, M>& rhs) const {
     	matrix<T, N, M> result;
 
 		for(std::size_t i = 0; i < size; i++) {
@@ -155,7 +156,7 @@ namespace cuda {
     }
 
     template<typename T, std::size_t N, std::size_t M>
-    matrix<T, N, M> matrix<T, N, M>::hadamard_parallel(const matrix<T, N, M>& rhs) {
+    matrix<T, N, M> matrix<T, N, M>::hadamard_parallel(const matrix<T, N, M>& rhs) const {
     	matrix<T, N, M> result;
 
     	T *d_A, *d_B, *d_C;
@@ -186,7 +187,7 @@ namespace cuda {
     }
 
     template<typename T, std::size_t N, std::size_t M>
-    matrix<T, N, M> matrix<T, N, M>::hadamard_sequential(const matrix<T, N, M>& rhs) {
+    matrix<T, N, M> matrix<T, N, M>::hadamard_sequential(const matrix<T, N, M>& rhs) const {
     	matrix<T, N, M> result;
 
 		for(std::size_t i = 0; i < size; i++) {
