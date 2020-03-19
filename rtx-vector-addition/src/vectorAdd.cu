@@ -117,7 +117,7 @@ main(void)
 	 	int numElements = 502267904;
 		size_t size = numElements * sizeof(float);
 		printf("[Vector addition of %d elements]\n", numElements);
-
+		        
 		float *h_A = (float *)malloc(size);
 		float *h_B = (float *)malloc(size);
 		float *h_C = (float *)malloc(size);
@@ -135,7 +135,6 @@ main(void)
 		}
 
 		for(int i = 0; i < 10; i++) {
-
 			timer::start();
 
 			float *d_A = NULL;
