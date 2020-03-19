@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <assert.h>
 
-#include "matrix.h"
 #include "vector.h"
 #include "timer.h"
 
@@ -41,27 +40,22 @@ void vector_dyadic() {
 	cuda::vector<T, Size> h_B;
 	h_B.random_initialize();
 
-//	cuda::matrix<T, Size, Size> h_C = h_A.dyadic_parallel(h_B);
+	cuda::matrix<T, Size, Size> h_C = h_A.dyadic_parallel(h_B);
 	cuda::matrix<T, Size, Size> d_C = h_A.dyadic_sequential(h_B);
 
-//	h_A.print();
-//	h_B.print();
-//	d_C.print();
-
-//	std::cout << (h_C == d_C ? "Dyadic passed" : "Dyadic failed") << std::endl;
+	std::cout << (h_C == d_C ? "Dyadic passed" : "Dyadic failed") << std::endl;
 }
 
 int main(int argc, char **argv) {
-//	matrix_addition<float, 100>();
-//	matrix_addition<int, 100>();
-//
-//	matrix_hadamard<float, 100>();
-//	matrix_hadamard<int, 100>();
+	matrix_addition<float, 100>();
+	matrix_addition<int, 100>();
 
-	vector_dyadic<float, 3>();
-	vector_dyadic<int, 3>();
+	matrix_hadamard<float, 100>();
+	matrix_hadamard<int, 100>();
+
+	vector_dyadic<float, 6>();
+	vector_dyadic<int, 4>();
 
 
     return 0;
 }
-

@@ -31,8 +31,8 @@ __global__ void cuda_matrix_hadamard(const T *A, const T *B, T *C, unsigned long
 namespace cuda {
 
     template<typename T, std::size_t N, std::size_t M>
-    struct matrix {
-
+    class matrix {
+    public:
         T* data;
 
         const std::size_t size = N * M;
@@ -97,7 +97,7 @@ namespace cuda {
         void print() const {
             for(std::size_t i = 0; i < N; i++) {
             	for(std::size_t j = 0; j < M; j++) {
-            		std::cout << data[j + i * N] << " ";
+            		std::cout << data[i + j * N] << " ";
             	}
                std::cout << std::endl;
             }
@@ -131,7 +131,7 @@ namespace cuda {
 		int threadsPerBlock = 32;
 		int blocksPerGrid =((size) + threadsPerBlock - 1) / threadsPerBlock;
 		printf("CUDA kernel launch with %d blocks of %d threads\n", blocksPerGrid, threadsPerBlock);
-		cuda_matrix_addition<<<blocksPerGrid, threadsPerBlock>>>(d_A, d_B, d_C, size * sizeof(T));
+		cuda_matrix_addition<<<blocksPerGrid, threadsPerBlock>>>(d_A, d_B, d_C, size);
 
 		std::cout << "done\n";
 
@@ -173,7 +173,7 @@ namespace cuda {
 		int threadsPerBlock = 32;
 		int blocksPerGrid =((size) + threadsPerBlock - 1) / threadsPerBlock;
 		printf("CUDA kernel launch with %d blocks of %d threads\n", blocksPerGrid, threadsPerBlock);
-		cuda_matrix_hadamard<<<blocksPerGrid, threadsPerBlock>>>(d_A, d_B, d_C, size * sizeof(T));
+		cuda_matrix_hadamard<<<blocksPerGrid, threadsPerBlock>>>(d_A, d_B, d_C, size);
 
 		std::cout << "done\n";
 
@@ -191,7 +191,7 @@ namespace cuda {
     	matrix<T, N, M> result;
 
 		for(std::size_t i = 0; i < size; i++) {
-			result.data[i] = this->data[i] * rhs.data[i];
+			result.data[i] = data[i] * rhs.data[i];
 		}
 
 		return result;
