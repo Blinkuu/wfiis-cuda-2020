@@ -66,10 +66,13 @@ namespace cuda {
 
 		template<typename T>
 		static void run_vector_dyadic(T *d_A, T *d_B, T *d_C, std::size_t N, std::size_t M) {
-			int threadsPerBlock = 1024;
-			int blocksPerGrid =((N * M) + threadsPerBlock - 1) / threadsPerBlock;
+			const int threads_per_block = 32;
+			const dim3 block_size(threads_per_block, threads_per_block);
+			const int block_x = (N + threads_per_block - 1)/threads_per_block;
+			const int block_y = (N + threads_per_block - 1)/threads_per_block;
+			const dim3 grid_size = dim3(block_x, block_y);
 
-			cuda_vector_dyadic_2d<<<blocksPerGrid, threadsPerBlock>>>(d_A, d_B, d_C, N, 1);
+			cuda_vector_dyadic_2d<<<grid_size, block_size>>>(d_A, d_B, d_C, N, N);
 		}
 	};
 

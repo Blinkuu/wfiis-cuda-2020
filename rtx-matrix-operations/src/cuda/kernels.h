@@ -72,7 +72,14 @@ __global__ void cuda_matrix_hadamard_2d(const T *A, const T *B, T *C, unsigned l
 
 template< typename T >
 __global__ void cuda_vector_dyadic_2d(const T *A, const T *B, T *C, unsigned long N, unsigned long M) {
+	int i = blockIdx.y*blockDim.y + threadIdx.y;
+	int j = blockIdx.x*blockDim.x + threadIdx.x;
 
+	int k = i + j * M;
+
+	if(i < M && j < N) {
+		C[k] = A[i] * B[j];
+	}
 }
 
 // 3D

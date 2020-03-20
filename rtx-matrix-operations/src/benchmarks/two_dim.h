@@ -3,6 +3,7 @@
 #include "../maths/vector.h"
 #include "../time/timer.h"
 #include "get_type_name.h"
+#include "config.h"
 
 #include <fstream>
 
@@ -32,7 +33,7 @@ void two_dim_matrix_addition() {
 	ofs.open("two_dim_matrix_addition_" + get_type_name<T>() + ".txt", std::ofstream::out | std::ofstream::app);
 	ofs << Size << "\t" << parallel_time << "\t" << sequential_time << std::endl;
 
-	std::cout << (h_C == d_C ? "Addition passed" : "Addition failed") << "\n\n";
+	std::cout << (h_C == d_C ? "[ADDITION PASSED]" : "[ADDITION FAILED]") << "\n\n";
 }
 
 template<typename T, std::size_t Size>
@@ -61,7 +62,7 @@ void two_dim_matrix_hadamard() {
 	ofs.open("two_dim_matrix_hadamard_" + get_type_name<T>() + ".txt", std::ofstream::out | std::ofstream::app);
 	ofs << Size << "\t" << parallel_time << "\t" << sequential_time << std::endl;
 
-	std::cout << (h_C == d_C ? "Hadamard passed" : "Hadamard failed") << "\n\n";
+	std::cout << (h_C == d_C ? "[HADAMARD PASSED]" : "[HADAMARD FAILED]") << "\n\n";
 }
 
 template<typename T, std::size_t Size>
@@ -90,28 +91,24 @@ void two_dim_vector_dyadic() {
 	ofs.open("two_dim_vector_dyadic_" + get_type_name<T>() + ".txt", std::ofstream::out | std::ofstream::app);
 	ofs << Size << "\t" << parallel_time << "\t" << sequential_time << std::endl;
 
-	std::cout << (h_C == d_C ? "Dyadic passed" : "Dyadic failed") << "\n\n";
+	std::cout << (h_C == d_C ? "[DYADIC PASSED]" : "[DYADIC FAILED]") << "\n\n";
 }
 
 static void two_dim_benchmarks_run() {
-	constexpr std::size_t max_iter = 1;
-	constexpr std::size_t num_elements = 100;
+	std::cout << "============== [2D BENCHMARKS] ==============\n\n";
 
-	std::cout << "[2D BENCHMARKS]\n\n";
-
-	for(std::size_t i = 0; i < max_iter; i++) {
-		two_dim_matrix_addition<float, num_elements>();
-		two_dim_matrix_addition<int, num_elements>();
+	for(std::size_t i = 0; i < cuda::config::max_iterations; i++) {
+		two_dim_matrix_addition<float, cuda::config::num_elements>();
+		two_dim_matrix_addition<int, cuda::config::num_elements>();
 	}
 
-	for(std::size_t i = 0; i < max_iter; i++) {
-		two_dim_matrix_hadamard<float, num_elements>();
-		two_dim_matrix_hadamard<int, num_elements>();
+	for(std::size_t i = 0; i < cuda::config::max_iterations; i++) {
+		two_dim_matrix_hadamard<float, cuda::config::num_elements>();
+		two_dim_matrix_hadamard<int, cuda::config::num_elements>();
 	}
 
-	for(std::size_t i = 0; i < max_iter; i++) {
-		two_dim_vector_dyadic<float, num_elements>();
-		two_dim_vector_dyadic<int, num_elements>();
+	for(std::size_t i = 0; i < cuda::config::max_iterations; i++) {
+		two_dim_vector_dyadic<float, cuda::config::num_elements>();
+		two_dim_vector_dyadic<int, cuda::config::num_elements>();
 	}
 }
-

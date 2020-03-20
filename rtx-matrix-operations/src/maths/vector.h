@@ -46,7 +46,7 @@ namespace cuda {
 
 		for(std::size_t i = 0; i < Size; i++) {
 			for(std::size_t j = 0; j < Size; j++) {
-				result.data[j + i * Size] = this->data[i] * rhs.data[j];
+				result.data[i + j * Size] = this->data[i] * rhs.data[j];
 			}
 		}
 
