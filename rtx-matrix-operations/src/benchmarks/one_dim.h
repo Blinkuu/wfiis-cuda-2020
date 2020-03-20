@@ -2,8 +2,9 @@
 
 #include "../maths/vector.h"
 #include "../time/timer.h"
+#include "../configs/config.h"
 #include "get_type_name.h"
-#include "config.h"
+
 
 #include <fstream>
 
@@ -107,9 +108,9 @@ static void one_dim_benchmarks_run() {
 		one_dim_matrix_hadamard<float, cuda::config::num_elements>();
 		one_dim_matrix_hadamard<int, cuda::config::num_elements>();
 	}
-//
-//	for(std::size_t i = 0; i < cuda::config::max_iterations; i++) {
-//		one_dim_vector_dyadic<float, cuda::config::num_elements>();
-//		one_dim_vector_dyadic<int, cuda::config::num_elements>();
-//	}
+
+	for(std::size_t i = 0; i < cuda::config::max_iterations; i++) {
+		one_dim_vector_dyadic<float, cuda::config::num_elements>();
+		one_dim_vector_dyadic<int, cuda::config::num_elements>();
+	}
 }

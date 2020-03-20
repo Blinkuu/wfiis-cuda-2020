@@ -2,8 +2,8 @@
 
 #include "../maths/vector.h"
 #include "../time/timer.h"
+#include "../configs/config.h"
 #include "get_type_name.h"
-#include "config.h"
 
 #include <fstream>
 

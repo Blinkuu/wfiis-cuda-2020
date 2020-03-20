@@ -6,7 +6,6 @@ namespace cuda {
 		UNKNOWN = 0,
 		ONE_DIM,
 		TWO_DIM,
-		THREE_DIM
 	};
 
 }
