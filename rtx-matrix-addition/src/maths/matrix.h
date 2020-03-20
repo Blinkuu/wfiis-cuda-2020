@@ -4,7 +4,7 @@
 #include <cmath>
 #include <iostream>
 
-#include "kernel_dispatcher.h"
+#include "../cuda/kernel_dispatcher.h"
 
 namespace cuda {
 
