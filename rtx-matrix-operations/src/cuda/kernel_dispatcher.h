@@ -21,7 +21,7 @@ namespace cuda {
 
 			printf("CUDA kernel launch with %d blocks of %d threads\n", blocksPerGrid, threadsPerBlock);
 
-			cuda_matrix_addition<<<blocksPerGrid, threadsPerBlock>>>(d_A, d_B, d_C, size);
+			cuda_matrix_addition_1d<<<blocksPerGrid, threadsPerBlock>>>(d_A, d_B, d_C, size);
 
 			std::cout << "done\n\n";
 		}
@@ -33,7 +33,7 @@ namespace cuda {
 
 			printf("CUDA kernel launch with %d blocks of %d threads\n", blocksPerGrid, threadsPerBlock);
 
-			cuda_matrix_hadamard<<<blocksPerGrid, threadsPerBlock>>>(d_A, d_B, d_C, size);
+			cuda_matrix_hadamard_1d<<<blocksPerGrid, threadsPerBlock>>>(d_A, d_B, d_C, size);
 
 			std::cout << "done\n\n";
 		}
@@ -45,7 +45,7 @@ namespace cuda {
 			int threadsPerBlock = 1024;
 			int blocksPerGrid =((size * size) + threadsPerBlock - 1) / threadsPerBlock;
 			printf("CUDA kernel launch with %d blocks of %d threads\n", blocksPerGrid, threadsPerBlock);
-			cuda_vector_dyadic<<<blocksPerGrid, threadsPerBlock>>>(d_A, d_B, d_C, size);
+			cuda_vector_dyadic_1d<<<blocksPerGrid, threadsPerBlock>>>(d_A, d_B, d_C, size);
 
 			std::cout << "done\n\n";
 		}
@@ -63,7 +63,7 @@ namespace cuda {
 
 			printf("CUDA kernel launch with %d blocks of %d threads\n", blocksPerGrid, threadsPerBlock);
 
-			cuda_matrix_addition<<<blocksPerGrid, threadsPerBlock>>>(d_A, d_B, d_C, size);
+			cuda_matrix_addition_2d<<<blocksPerGrid, threadsPerBlock>>>(d_A, d_B, d_C, size);
 
 			std::cout << "done\n\n";
 		}
@@ -77,7 +77,7 @@ namespace cuda {
 
 			printf("CUDA kernel launch with %d blocks of %d threads\n", blocksPerGrid, threadsPerBlock);
 
-			cuda_matrix_hadamard<<<blocksPerGrid, threadsPerBlock>>>(d_A, d_B, d_C, size);
+			cuda_matrix_hadamard_2d<<<blocksPerGrid, threadsPerBlock>>>(d_A, d_B, d_C, size);
 
 			std::cout << "done\n\n";
 		}
@@ -89,7 +89,7 @@ namespace cuda {
 			int threadsPerBlock = 1024;
 			int blocksPerGrid =((size * size) + threadsPerBlock - 1) / threadsPerBlock;
 			printf("CUDA kernel launch with %d blocks of %d threads\n", blocksPerGrid, threadsPerBlock);
-			cuda_vector_dyadic<<<blocksPerGrid, threadsPerBlock>>>(d_A, d_B, d_C, size);
+			cuda_vector_dyadic_2d<<<blocksPerGrid, threadsPerBlock>>>(d_A, d_B, d_C, size);
 
 			std::cout << "done\n\n";
 		}
@@ -107,7 +107,7 @@ namespace cuda {
 
 			printf("CUDA kernel launch with %d blocks of %d threads\n", blocksPerGrid, threadsPerBlock);
 
-			cuda_matrix_addition<<<blocksPerGrid, threadsPerBlock>>>(d_A, d_B, d_C, size);
+			cuda_matrix_addition_3d<<<blocksPerGrid, threadsPerBlock>>>(d_A, d_B, d_C, size);
 
 			std::cout << "done\n\n";
 		}
@@ -121,7 +121,7 @@ namespace cuda {
 
 			printf("CUDA kernel launch with %d blocks of %d threads\n", blocksPerGrid, threadsPerBlock);
 
-			cuda_matrix_hadamard<<<blocksPerGrid, threadsPerBlock>>>(d_A, d_B, d_C, size);
+			cuda_matrix_hadamard_3d<<<blocksPerGrid, threadsPerBlock>>>(d_A, d_B, d_C, size);
 
 			std::cout << "done\n\n";
 		}
@@ -133,7 +133,7 @@ namespace cuda {
 			int threadsPerBlock = 1024;
 			int blocksPerGrid =((size * size) + threadsPerBlock - 1) / threadsPerBlock;
 			printf("CUDA kernel launch with %d blocks of %d threads\n", blocksPerGrid, threadsPerBlock);
-			cuda_vector_dyadic<<<blocksPerGrid, threadsPerBlock>>>(d_A, d_B, d_C, size);
+			cuda_vector_dyadic_3d<<<blocksPerGrid, threadsPerBlock>>>(d_A, d_B, d_C, size);
 
 			std::cout << "done\n\n";
 		}
