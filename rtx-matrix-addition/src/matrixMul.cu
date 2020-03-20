@@ -12,10 +12,10 @@ void matrix_addition() {
 	cuda::matrix<T, Size, Size> h_B;
 	h_B.random_initialize();
 
-	cuda::matrix<T, Size, Size> h_C = h_A.add_parallel(h_B);
+	cuda::matrix<T, Size, Size> h_C = h_A.template add_parallel <cuda::grid_definition::ONE_DIM>(h_B);
 	cuda::matrix<T, Size, Size> d_C = h_A.add_sequential(h_B);
 
-	std::cout << (h_C == d_C ? "Addition passed" : "Addition failed") << std::endl;
+	std::cout << (h_C == d_C ? "Addition passed" : "Addition failed") << "\n\n";
 }
 
 template<typename T, std::size_t Size>
@@ -26,10 +26,10 @@ void matrix_hadamard() {
 	cuda::matrix<T, Size, Size> h_B;
 	h_B.random_initialize();
 
-	cuda::matrix<T, Size, Size> h_C = h_A.hadamard_parallel(h_B);
+	cuda::matrix<T, Size, Size> h_C = h_A.template hadamard_parallel<cuda::grid_definition::ONE_DIM>(h_B);
 	cuda::matrix<T, Size, Size> d_C = h_A.hadamard_sequential(h_B);
 
-	std::cout << (h_C == d_C ? "Hadamard passed" : "Hadamard failed") << std::endl;
+	std::cout << (h_C == d_C ? "Hadamard passed" : "Hadamard failed") << "\n\n";
 }
 
 template<typename T, std::size_t Size>
@@ -40,10 +40,10 @@ void vector_dyadic() {
 	cuda::vector<T, Size> h_B;
 	h_B.random_initialize();
 
-	cuda::matrix<T, Size, Size> h_C = h_A.dyadic_parallel(h_B);
+	cuda::matrix<T, Size, Size> h_C = h_A.template dyadic_parallel<cuda::grid_definition::ONE_DIM>(h_B);
 	cuda::matrix<T, Size, Size> d_C = h_A.dyadic_sequential(h_B);
 
-	std::cout << (h_C == d_C ? "Dyadic passed" : "Dyadic failed") << std::endl;
+	std::cout << (h_C == d_C ? "Dyadic passed" : "Dyadic failed") << "\n\n";
 }
 
 int main(int argc, char **argv) {
@@ -53,9 +53,8 @@ int main(int argc, char **argv) {
 	matrix_hadamard<float, 100>();
 	matrix_hadamard<int, 100>();
 
-	vector_dyadic<float, 6>();
-	vector_dyadic<int, 4>();
-
+	vector_dyadic<float, 100>();
+	vector_dyadic<int, 100>();
 
     return 0;
 }
