@@ -94,7 +94,7 @@ namespace cuda {
 	template<typename T, std::size_t N, std::size_t M>
 	bool matrix<T, N, M>::operator==(const matrix<T, N, M>& rhs) const {
 		for(std::size_t i = 0; i < size; i++) {
-			if(data[i] - rhs.data[i] > 1e-6)
+			if(data[i] != rhs.data[i])
 				return false;
 		}
 
@@ -133,7 +133,7 @@ namespace cuda {
 		checkCudaErrors(cudaMemcpy(d_A, this->data, size * sizeof(T), cudaMemcpyHostToDevice));
 		checkCudaErrors(cudaMemcpy(d_B, rhs.data, size * sizeof(T), cudaMemcpyHostToDevice));
 
-		kernel_dispatcher<Definition>::run_matrix_addition(d_A, d_B, d_C, size);
+		kernel_dispatcher<Definition>::run_matrix_addition(d_A, d_B, d_C, N, M);
 
 		checkCudaErrors(cudaMemcpy(result.data, d_C, size * sizeof(T), cudaMemcpyDeviceToHost));
 
@@ -169,7 +169,7 @@ namespace cuda {
 		checkCudaErrors(cudaMemcpy(d_A, this->data, size * sizeof(T), cudaMemcpyHostToDevice));
 		checkCudaErrors(cudaMemcpy(d_B, rhs.data, size * sizeof(T), cudaMemcpyHostToDevice));
 
-		kernel_dispatcher<Definition>::run_matrix_hadamard(d_A, d_B, d_C, size);
+		kernel_dispatcher<Definition>::run_matrix_hadamard(d_A, d_B, d_C, N, M);
 
 		checkCudaErrors(cudaMemcpy(result.data, d_C, size * sizeof(T), cudaMemcpyDeviceToHost));
 

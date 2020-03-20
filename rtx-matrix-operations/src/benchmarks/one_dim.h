@@ -96,7 +96,7 @@ void one_dim_vector_dyadic() {
 
 static void one_dim_benchmarks_run() {
 	constexpr std::size_t max_iter = 1;
-	constexpr std::size_t num_elements = 10;
+	constexpr std::size_t num_elements = 3;
 
 	std::cout << "[1D BENCHMARKS]\n\n";
 
