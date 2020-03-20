@@ -98,6 +98,8 @@ static void one_dim_benchmarks_run() {
 	constexpr std::size_t max_iter = 1;
 	constexpr std::size_t num_elements = 10;
 
+	std::cout << "[1D BENCHMARKS]\n\n";
+
 	for(std::size_t i = 0; i < max_iter; i++) {
 		one_dim_matrix_addition<float, num_elements>();
 		one_dim_matrix_addition<int, num_elements>();
