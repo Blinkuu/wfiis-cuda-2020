@@ -5,5 +5,9 @@
 *.cubin
 *.fatbin
 *.o
+Release/*
+Debug/*
 RemoteSystemsTempFiles
 .metadata
+.project
+.cproject
