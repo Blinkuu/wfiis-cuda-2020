@@ -10,6 +10,7 @@ namespace cuda {
 	struct kernel_dispatcher {
 		static void run_matrix_addition() = delete;
 		static void run_matrix_hadamard() = delete;
+		static void run_matrix_multiply() = delete;
 		static void run_vector_dyadic() = delete;
 	};
 
@@ -58,6 +59,16 @@ namespace cuda {
 			const dim3 grid_size = dim3(block_x, block_y);
 
 			cuda_matrix_hadamard_2d<<<grid_size, block_size>>>(d_A, d_B, d_C, N, M);
+		}
+
+		template<typename T>
+		static void run_matrix_multiply(T *d_A, T *d_B, T *d_C, std::size_t N, std::size_t M) {
+			const dim3 block_size(config::threads_per_block, config::threads_per_block);
+			const int block_x = (N + config::threads_per_block - 1)/config::threads_per_block;
+			const int block_y = (M + config::threads_per_block - 1)/config::threads_per_block;
+			const dim3 grid_size = dim3(block_x, block_y);
+
+			cuda_matrix_multiplication_2d<<<grid_size, block_size>>>(d_A, d_B, d_C, N, M);
 		}
 
 		template<typename T>

@@ -71,6 +71,20 @@ __global__ void cuda_matrix_hadamard_2d(const T *A, const T *B, T *C, unsigned l
 }
 
 template< typename T >
+__global__ void cuda_matrix_multiplication_2d(const T *A, const T *B, T *C, unsigned long N, unsigned long M) {
+	int i = blockIdx.y*blockDim.y + threadIdx.y;
+	int j = blockIdx.x*blockDim.x + threadIdx.x;
+
+	if(i < M && j < N) {
+		T sum{};
+		for(int k = 0; k < M; k++){
+			sum += A[i + k * M] * B[k + j * M];
+		}
+		C[i + j * M] = sum;
+	}
+}
+
+template< typename T >
 __global__ void cuda_vector_dyadic_2d(const T *A, const T *B, T *C, unsigned long N, unsigned long M) {
 	int i = blockIdx.y*blockDim.y + threadIdx.y;
 	int j = blockIdx.x*blockDim.x + threadIdx.x;

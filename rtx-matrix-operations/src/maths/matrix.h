@@ -42,6 +42,11 @@ namespace cuda {
         matrix hadamard_parallel(const matrix& rhs) const;
 
         matrix hadamard_sequential(const matrix& rhs) const;
+
+        template<grid_definition Definition>
+        matrix<T, N, N> multiply_parallel(const matrix<T, M, N>& rhs) const;
+
+        matrix<T, N, N> multiply_sequential(const matrix<T, M, N>& rhs) const;
     };
 
     template<typename T, std::size_t N, std::size_t M>
@@ -94,7 +99,7 @@ namespace cuda {
 	template<typename T, std::size_t N, std::size_t M>
 	bool matrix<T, N, M>::operator==(const matrix<T, N, M>& rhs) const {
 		for(std::size_t i = 0; i < size; i++) {
-			if(data[i] != rhs.data[i])
+			if(data[i] - rhs.data[i] > 1e-4)
 				return false;
 		}
 
@@ -186,6 +191,48 @@ namespace cuda {
 
 		for(std::size_t i = 0; i < size; i++) {
 			result.data[i] = data[i] * rhs.data[i];
+		}
+
+		return result;
+    }
+
+    template<typename T, std::size_t N, std::size_t M>
+    template<grid_definition Definition>
+    matrix<T, N, N> matrix<T, N, M>::multiply_parallel(const matrix<T, M, N>& rhs) const {
+    	matrix<T, N, M> result;
+
+    	T *d_A, *d_B, *d_C;
+
+		checkCudaErrors(cudaMalloc(reinterpret_cast<void **>(&d_A), size * sizeof(T)));
+		checkCudaErrors(cudaMalloc(reinterpret_cast<void **>(&d_B), size * sizeof(T)));
+		checkCudaErrors(cudaMalloc(reinterpret_cast<void **>(&d_C), size * sizeof(T)));
+
+		checkCudaErrors(cudaMemcpy(d_A, this->data, size * sizeof(T), cudaMemcpyHostToDevice));
+		checkCudaErrors(cudaMemcpy(d_B, rhs.data, size * sizeof(T), cudaMemcpyHostToDevice));
+
+		kernel_dispatcher<Definition>::run_matrix_multiply(d_A, d_B, d_C, N, M);
+
+		checkCudaErrors(cudaMemcpy(result.data, d_C, size * sizeof(T), cudaMemcpyDeviceToHost));
+
+		checkCudaErrors(cudaFree(d_A));
+		checkCudaErrors(cudaFree(d_B));
+		checkCudaErrors(cudaFree(d_C));
+
+		return result;
+    }
+
+    template<typename T, std::size_t N, std::size_t M>
+    matrix<T, N, N> matrix<T, N, M>::multiply_sequential(const matrix<T, M, N>& rhs) const {
+    	matrix<T, N, N> result;
+
+		for(std::size_t i = 0; i < N; i++) {
+			for(std::size_t j = 0; j < M; j++) {
+				T sum{};
+				for(int k = 0; k < M; k++){
+					sum += data[i + k * M] * rhs.data[k + j * M];
+				}
+				result.data[i + j * M] = sum;
+			}
 		}
 
 		return result;

@@ -9,3 +9,9 @@ template<>
 std::string get_type_name<float>() {
 	return "float";
 }
+
+template<>
+std::string get_type_name<double>() {
+	return "double";
+}
+
