@@ -36,7 +36,7 @@ __global__ void cuda_vector_dyadic_1d(const T *A, const T *B, T *C, unsigned lon
 		for(int k = 0; k < numElements; k++) {
 			for(int m = 0; m < numElements; m++) {
 				if((m + k * numElements) == i) {
-					C[i] = A[k] * B[m];
+					C[i] = A[m] * B[k];
 				}
 			}
 		}

@@ -56,7 +56,7 @@ namespace cuda {
 
     template<typename T, std::size_t N, std::size_t M>
     matrix<T, N, M>::matrix(const matrix<T, N, M>& rhs) {
-		data = reinterpret_cast<T*>(malloc(size * sizeof(T)));
+    	checkCudaErrors(cudaMallocManaged(&data, size * sizeof(T)));
 		for(std::size_t i = 0; i < size; i++) {
 		   data[i] = rhs.data[i];
 		}
@@ -99,7 +99,7 @@ namespace cuda {
 	template<typename T, std::size_t N, std::size_t M>
 	bool matrix<T, N, M>::operator==(const matrix<T, N, M>& rhs) const {
 		for(std::size_t i = 0; i < size; i++) {
-			if(data[i] - rhs.data[i] > 1e-4)
+			if(data[i] != rhs.data[i])
 				return false;
 		}
 
@@ -129,8 +129,9 @@ namespace cuda {
     matrix<T, N, M> matrix<T, N, M>::add_parallel(const matrix<T, N, M>& rhs) const {
     	matrix<T, N, M> result;
 
-		kernel_dispatcher<Definition>::run_matrix_addition(data, rhs.data, result.data, N, M);
+		kernel_dispatcher<Definition>::run_matrix_addition(this->data, rhs.data, result.data, N, M);
 		checkCudaErrors(cudaGetLastError());
+		checkCudaErrors(cudaDeviceSynchronize());
 
 		return result;
     }
@@ -151,8 +152,9 @@ namespace cuda {
     matrix<T, N, M> matrix<T, N, M>::hadamard_parallel(const matrix<T, N, M>& rhs) const {
     	matrix<T, N, M> result;
 
-		kernel_dispatcher<Definition>::run_matrix_hadamard(data, rhs.data, result.data, N, M);
+		kernel_dispatcher<Definition>::run_matrix_hadamard(this->data, rhs.data, result.data, N, M);
 		checkCudaErrors(cudaGetLastError());
+		checkCudaErrors(cudaDeviceSynchronize());
 
 		return result;
     }
@@ -173,8 +175,9 @@ namespace cuda {
     matrix<T, N, N> matrix<T, N, M>::multiply_parallel(const matrix<T, M, N>& rhs) const {
     	matrix<T, N, M> result;
 
-    	kernel_dispatcher<Definition>::run_matrix_multiply(data, rhs.data, result.data, N, M);
+    	kernel_dispatcher<Definition>::run_matrix_multiply(this->data, rhs.data, result.data, N, M);
     	checkCudaErrors(cudaGetLastError());
+    	checkCudaErrors(cudaDeviceSynchronize());
 
 		return result;
     }

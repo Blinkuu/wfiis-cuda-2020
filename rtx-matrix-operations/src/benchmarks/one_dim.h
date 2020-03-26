@@ -93,7 +93,7 @@ void one_dim_vector_dyadic() {
 	ofs.open("one_dim_vector_dyadic_" + get_type_name<T>() + ".txt", std::ofstream::out | std::ofstream::app);
 	ofs << Size << "\t" << parallel_time << "\t" << sequential_time << std::endl;
 
-	std::cout << (h_C == d_C ? "[DYADIC PASSED]" : "[DYADIC PASSED]") << "\n\n";
+	std::cout << (h_C == d_C ? "[DYADIC PASSED]" : "[DYADIC FAILED]") << "\n\n";
 }
 
 static void one_dim_benchmarks_run() {

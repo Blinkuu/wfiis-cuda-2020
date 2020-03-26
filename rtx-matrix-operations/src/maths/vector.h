@@ -20,8 +20,9 @@ namespace cuda {
 	matrix<T, Size, Size> vector<T, Size>::dyadic_parallel(const vector<T, Size>& rhs) const {
 		matrix<T, Size, Size> result;
 
-		kernel_dispatcher<Definition>::run_vector_dyadic(data, rhs.data, result.data, Size, Size);
+		kernel_dispatcher<Definition>::run_vector_dyadic(this->data, rhs.data, result.data, Size, Size);
 		checkCudaErrors(cudaGetLastError());
+		checkCudaErrors(cudaDeviceSynchronize());
 
 		return result;
 	}
