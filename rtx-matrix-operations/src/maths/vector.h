@@ -30,6 +30,7 @@ namespace cuda {
 		checkCudaErrors(cudaMemcpy(d_B, rhs.data, this->size * sizeof(T), cudaMemcpyHostToDevice));
 
 		kernel_dispatcher<Definition>::run_vector_dyadic(d_A, d_B, d_C, Size, Size);
+		checkCudaErrors(cudaGetLastError());
 
 		checkCudaErrors(cudaMemcpy(result.data, d_C, Size * Size * sizeof(T), cudaMemcpyDeviceToHost));
 

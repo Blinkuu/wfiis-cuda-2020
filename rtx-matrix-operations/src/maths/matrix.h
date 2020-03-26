@@ -139,6 +139,7 @@ namespace cuda {
 		checkCudaErrors(cudaMemcpy(d_B, rhs.data, size * sizeof(T), cudaMemcpyHostToDevice));
 
 		kernel_dispatcher<Definition>::run_matrix_addition(d_A, d_B, d_C, N, M);
+		checkCudaErrors(cudaGetLastError());
 
 		checkCudaErrors(cudaMemcpy(result.data, d_C, size * sizeof(T), cudaMemcpyDeviceToHost));
 
@@ -175,6 +176,7 @@ namespace cuda {
 		checkCudaErrors(cudaMemcpy(d_B, rhs.data, size * sizeof(T), cudaMemcpyHostToDevice));
 
 		kernel_dispatcher<Definition>::run_matrix_hadamard(d_A, d_B, d_C, N, M);
+		checkCudaErrors(cudaGetLastError());
 
 		checkCudaErrors(cudaMemcpy(result.data, d_C, size * sizeof(T), cudaMemcpyDeviceToHost));
 
@@ -211,6 +213,7 @@ namespace cuda {
 		checkCudaErrors(cudaMemcpy(d_B, rhs.data, size * sizeof(T), cudaMemcpyHostToDevice));
 
 		kernel_dispatcher<Definition>::run_matrix_multiply(d_A, d_B, d_C, N, M);
+		checkCudaErrors(cudaGetLastError());
 
 		checkCudaErrors(cudaMemcpy(result.data, d_C, size * sizeof(T), cudaMemcpyDeviceToHost));
 

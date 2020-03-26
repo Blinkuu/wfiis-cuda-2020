@@ -37,7 +37,7 @@ void matrix_multiplication_test() {
 }
 
 static void matrix_multiplication_benchmarks_run() {
-	std::cout << "============== [1D BENCHMARKS] ==============\n\n";
+	std::cout << "============== [2D BENCHMARKS] ==============\n\n";
 
 	for(std::size_t i = 0; i < cuda::config::max_iterations; i++) {
 		matrix_multiplication_test<double, cuda::config::num_elements>();
