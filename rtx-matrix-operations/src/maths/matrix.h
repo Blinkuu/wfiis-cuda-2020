@@ -51,7 +51,7 @@ namespace cuda {
 
     template<typename T, std::size_t N, std::size_t M>
     matrix<T, N, M>::matrix() {
-	   data = reinterpret_cast<T*>(malloc(size * sizeof(T)));
+    	checkCudaErrors(cudaMallocManaged(&data, size * sizeof(T)));
 	}
 
     template<typename T, std::size_t N, std::size_t M>
@@ -70,7 +70,7 @@ namespace cuda {
 
 	template<typename T, std::size_t N, std::size_t M>
 	matrix<T, N, M>::~matrix() {
-		free(data);
+		checkCudaErrors(cudaFree(data));
 	}
 
 	template<typename T, std::size_t N, std::size_t M>
@@ -129,23 +129,8 @@ namespace cuda {
     matrix<T, N, M> matrix<T, N, M>::add_parallel(const matrix<T, N, M>& rhs) const {
     	matrix<T, N, M> result;
 
-    	T *d_A, *d_B, *d_C;
-
-		checkCudaErrors(cudaMalloc(reinterpret_cast<void **>(&d_A), size * sizeof(T)));
-		checkCudaErrors(cudaMalloc(reinterpret_cast<void **>(&d_B), size * sizeof(T)));
-		checkCudaErrors(cudaMalloc(reinterpret_cast<void **>(&d_C), size * sizeof(T)));
-
-		checkCudaErrors(cudaMemcpy(d_A, this->data, size * sizeof(T), cudaMemcpyHostToDevice));
-		checkCudaErrors(cudaMemcpy(d_B, rhs.data, size * sizeof(T), cudaMemcpyHostToDevice));
-
-		kernel_dispatcher<Definition>::run_matrix_addition(d_A, d_B, d_C, N, M);
+		kernel_dispatcher<Definition>::run_matrix_addition(data, rhs.data, result.data, N, M);
 		checkCudaErrors(cudaGetLastError());
-
-		checkCudaErrors(cudaMemcpy(result.data, d_C, size * sizeof(T), cudaMemcpyDeviceToHost));
-
-		checkCudaErrors(cudaFree(d_A));
-		checkCudaErrors(cudaFree(d_B));
-		checkCudaErrors(cudaFree(d_C));
 
 		return result;
     }
@@ -166,23 +151,8 @@ namespace cuda {
     matrix<T, N, M> matrix<T, N, M>::hadamard_parallel(const matrix<T, N, M>& rhs) const {
     	matrix<T, N, M> result;
 
-    	T *d_A, *d_B, *d_C;
-
-		checkCudaErrors(cudaMalloc(reinterpret_cast<void **>(&d_A), size * sizeof(T)));
-		checkCudaErrors(cudaMalloc(reinterpret_cast<void **>(&d_B), size * sizeof(T)));
-		checkCudaErrors(cudaMalloc(reinterpret_cast<void **>(&d_C), size * sizeof(T)));
-
-		checkCudaErrors(cudaMemcpy(d_A, this->data, size * sizeof(T), cudaMemcpyHostToDevice));
-		checkCudaErrors(cudaMemcpy(d_B, rhs.data, size * sizeof(T), cudaMemcpyHostToDevice));
-
-		kernel_dispatcher<Definition>::run_matrix_hadamard(d_A, d_B, d_C, N, M);
+		kernel_dispatcher<Definition>::run_matrix_hadamard(data, rhs.data, result.data, N, M);
 		checkCudaErrors(cudaGetLastError());
-
-		checkCudaErrors(cudaMemcpy(result.data, d_C, size * sizeof(T), cudaMemcpyDeviceToHost));
-
-		checkCudaErrors(cudaFree(d_A));
-		checkCudaErrors(cudaFree(d_B));
-		checkCudaErrors(cudaFree(d_C));
 
 		return result;
     }
@@ -203,23 +173,8 @@ namespace cuda {
     matrix<T, N, N> matrix<T, N, M>::multiply_parallel(const matrix<T, M, N>& rhs) const {
     	matrix<T, N, M> result;
 
-    	T *d_A, *d_B, *d_C;
-
-		checkCudaErrors(cudaMalloc(reinterpret_cast<void **>(&d_A), size * sizeof(T)));
-		checkCudaErrors(cudaMalloc(reinterpret_cast<void **>(&d_B), size * sizeof(T)));
-		checkCudaErrors(cudaMalloc(reinterpret_cast<void **>(&d_C), size * sizeof(T)));
-
-		checkCudaErrors(cudaMemcpy(d_A, this->data, size * sizeof(T), cudaMemcpyHostToDevice));
-		checkCudaErrors(cudaMemcpy(d_B, rhs.data, size * sizeof(T), cudaMemcpyHostToDevice));
-
-		kernel_dispatcher<Definition>::run_matrix_multiply(d_A, d_B, d_C, N, M);
-		checkCudaErrors(cudaGetLastError());
-
-		checkCudaErrors(cudaMemcpy(result.data, d_C, size * sizeof(T), cudaMemcpyDeviceToHost));
-
-		checkCudaErrors(cudaFree(d_A));
-		checkCudaErrors(cudaFree(d_B));
-		checkCudaErrors(cudaFree(d_C));
+    	kernel_dispatcher<Definition>::run_matrix_multiply(data, rhs.data, result.data, N, M);
+    	checkCudaErrors(cudaGetLastError());
 
 		return result;
     }

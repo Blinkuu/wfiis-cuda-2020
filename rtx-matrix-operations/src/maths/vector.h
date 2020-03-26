@@ -20,23 +20,8 @@ namespace cuda {
 	matrix<T, Size, Size> vector<T, Size>::dyadic_parallel(const vector<T, Size>& rhs) const {
 		matrix<T, Size, Size> result;
 
-    	T *d_A, *d_B, *d_C;
-
-		checkCudaErrors(cudaMalloc(reinterpret_cast<void **>(&d_A), this->size * sizeof(T)));
-		checkCudaErrors(cudaMalloc(reinterpret_cast<void **>(&d_B), this->size * sizeof(T)));
-		checkCudaErrors(cudaMalloc(reinterpret_cast<void **>(&d_C), Size * Size * sizeof(T)));
-
-		checkCudaErrors(cudaMemcpy(d_A, this->data, this->size * sizeof(T), cudaMemcpyHostToDevice));
-		checkCudaErrors(cudaMemcpy(d_B, rhs.data, this->size * sizeof(T), cudaMemcpyHostToDevice));
-
-		kernel_dispatcher<Definition>::run_vector_dyadic(d_A, d_B, d_C, Size, Size);
+		kernel_dispatcher<Definition>::run_vector_dyadic(data, rhs.data, result.data, Size, Size);
 		checkCudaErrors(cudaGetLastError());
-
-		checkCudaErrors(cudaMemcpy(result.data, d_C, Size * Size * sizeof(T), cudaMemcpyDeviceToHost));
-
-		checkCudaErrors(cudaFree(d_A));
-		checkCudaErrors(cudaFree(d_B));
-		checkCudaErrors(cudaFree(d_C));
 
 		return result;
 	}

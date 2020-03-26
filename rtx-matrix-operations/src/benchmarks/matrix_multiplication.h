@@ -30,7 +30,7 @@ void matrix_multiplication_test() {
 	std::cout << "[SEQUENTIAL MULTIPLICATION 1D] " << sequential_time << " [s]\n";
 
 	std::ofstream ofs;
-	ofs.open("matrix_multiplication_" + get_type_name<T>() + ".txt", std::ofstream::out | std::ofstream::app);
+	ofs.open("matrix_multiplication_" + get_type_name<T>() + "_managed_memory.txt", std::ofstream::out | std::ofstream::app);
 	ofs << Size << "\t" << parallel_time << "\t" << sequential_time << std::endl;
 
 	std::cout << (h_C == d_C ? "[MULTIPLICATION PASSED]" : "[MULTIPLICATION FAILED]") << "\n\n";
